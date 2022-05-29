@@ -1,9 +1,10 @@
 package wittie.uius
 
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
 
-sealed class UiDrawable {
-    abstract fun draw(batch: Batch, dims: Dimensions2i)
+abstract class UiDrawable {
+//    abstract fun draw(batch: Batch, dims: Dimensions2i)
 
     abstract fun children(position: Position2i): List<PositionedDrawable> // = listOf()
 
@@ -15,4 +16,7 @@ sealed class UiDrawable {
 
 //        return children().fold(localFn(dims, this), { c: PositionedDrawable -> c.uiDrawable.visit(c.dims) })
     }
+
+    abstract fun drawContent(batch: SpriteBatch, shapeHelper: ShapeHelper, position: Position2i)
+    abstract fun type(): String
 }
