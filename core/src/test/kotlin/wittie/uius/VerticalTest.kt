@@ -86,4 +86,16 @@ internal class VerticalTest {
             vertical.children(Position2i(Point2i(0, 0), Dimensions2i(100, 600)))
         )
     }
+
+    @Test
+    fun onePercentageShouldWork() {
+        val vertical = Vertical()
+        val d = Text("A")
+        vertical.add(d, Percentage(25))
+
+        assertEquals(
+            listOf(PositionedDrawable(d, Position2i(Point2i(0, 0), Dimensions2i(100, 50)))),
+            vertical.children(Position2i(Point2i(0, 0), Dimensions2i(100, 200)))
+        )
+    }
 }

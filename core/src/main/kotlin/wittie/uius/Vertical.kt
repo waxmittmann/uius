@@ -15,13 +15,14 @@ class Vertical : Layout() {
             return listOf()
 
         val fixedTotal = LayoutFns.fixedSum(elements)
-        val percentageTotal = LayoutFns.percentageSum(elements) * (position.dimensions.height - fixedTotal)
+        val percentageTotal = ((LayoutFns.percentageSum(elements) / 100.0) * position.dimensions.height).toInt()
+//        val nonFixedTotal = position.dimensions.height - fixedTotal
+//        val percentageTotal = ((LayoutFns.percentageSum(elements) / 100.0) * (position.dimensions.height - fixedTotal)).toInt()
         val fillWeightSum = LayoutFns.fillWeightSum(elements)
 
         val result =  elements.fold<UiDrawableWithFill, Pair<List<PositionedDrawable>, Int>>(Pair(listOf(), position.lowerLeft.y)) { (elementsSoFar, yAt), element ->
             when (element.fill) {
                 is Fill -> {
-                    println("$yAt ${element.fill.weight.toFloat()} $fillWeightSum $fixedTotal $percentageTotal")
                     val resultElements = element.drawable.children(
                         Position2i(
                             position.lowerLeft.copy(y = yAt),
@@ -47,7 +48,8 @@ class Vertical : Layout() {
                 }
 
                 is Percentage -> {
-                    val eleHeigth = element.fill.percentage * percentageTotal
+                    println("$yAt  $fixedTotal $percentageTotal")
+                    val eleHeigth = ((element.fill.percentage  / 100.0) * position.dimensions.height).toInt()
                     val resultElement = PositionedDrawable(
                         element.drawable,
                         Position2i(
