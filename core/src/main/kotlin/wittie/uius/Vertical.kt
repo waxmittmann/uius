@@ -48,7 +48,7 @@ class Vertical : Layout() {
                 }
 
                 is Percentage -> {
-                    println("$yAt  $fixedTotal $percentageTotal")
+//                    println("$yAt  $fixedTotal $percentageTotal")
                     val eleHeigth = ((element.fill.percentage  / 100.0) * position.dimensions.height).toInt()
                     val resultElement = PositionedDrawable(
                         element.drawable,
@@ -61,7 +61,7 @@ class Vertical : Layout() {
                 }
             }
         }.first
-        assert(result.size == elements.size)
+//        assert(result.size == elements.size)
         return result
     }
 

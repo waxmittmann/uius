@@ -24,6 +24,8 @@ class FirstScreen : KtxScreen {
     private var time: Float = 0f
     private var lastTime: Float = 0f
 
+    private val ui = ui()
+
 
     init {
         fun localFn(positionedDrawable: PositionedDrawable): String {
@@ -45,16 +47,17 @@ class FirstScreen : KtxScreen {
 //            it.draw(image, 100f, 160f)
 
             if (true) {
-                val result = ui().visit(Position2i(0, 0, 500, 500), { pd ->
+//                val result = ui().visit(Position2i(0, 0, 500, 500), { pd ->
+                val result = ui.visit(Position2i(0, 0, 300, 300), { pd ->
                     pd.uiDrawable.drawContent(batch, helper, pd.position)
                     listOf("Drew ${pd.uiDrawable.type()} at ${pd.position.toString()}")
 //                    println(pd.uiDrawable)
                 }, { l: List<String>, r: List<String> -> l + r })
 
-                if (time > lastTime + 1) {
-                    println(result)
-                    lastTime = time
-                }
+//                if (time > lastTime + 1) {
+//                    println(result)
+//                    lastTime = time
+//                }
             }
 
 //            ui.

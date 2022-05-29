@@ -13,9 +13,14 @@ abstract class UiDrawable {
             val newS = child.uiDrawable.visit(child.position, localFn, foldFn)
             foldFn(s, newS)
         }
-
-//        return children().fold(localFn(dims, this), { c: PositionedDrawable -> c.uiDrawable.visit(c.dims) })
     }
+
+//    fun <S> postVisit(position: Position2i, localFn: (PositionedDrawable) -> S, foldFn: (S, S) -> S): S {
+//        return children(position).fold(localFn(PositionedDrawable(this, position))) { s: S, child: PositionedDrawable ->
+//            val newS = child.uiDrawable.visit(child.position, localFn, foldFn)
+//            foldFn(s, newS)
+//        }
+//    }
 
     abstract fun drawContent(batch: SpriteBatch, shapeHelper: ShapeHelper, position: Position2i)
     abstract fun type(): String
