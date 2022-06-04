@@ -1,6 +1,7 @@
 package wittie.uius
 
 import com.badlogic.gdx.graphics.Color
+import wittie.uius.ui.*
 
 fun menu(): RectangularArea {
     return RectangularArea(

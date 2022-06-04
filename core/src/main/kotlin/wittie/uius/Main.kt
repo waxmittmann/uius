@@ -10,6 +10,7 @@ import ktx.app.clearScreen
 import ktx.assets.disposeSafely
 import ktx.assets.toInternalFile
 import ktx.graphics.use
+import wittie.uius.ui.PositionedContainer
 
 class Main : KtxGame<KtxScreen>() {
     override fun create() {
@@ -28,8 +29,8 @@ class FirstScreen : KtxScreen {
 
 
     init {
-        fun localFn(positionedDrawable: PositionedDrawable): String {
-            return positionedDrawable.uiDrawable.type() + ", " + positionedDrawable.position.toString()
+        fun localFn(positionedContainer: PositionedContainer): String {
+            return positionedContainer.uiContainer.type() + ", " + positionedContainer.position.toString()
         }
 
         fun foldFn(lhs: String, rhs: String): String {
@@ -49,8 +50,8 @@ class FirstScreen : KtxScreen {
             if (true) {
 //                val result = ui().visit(Position2i(0, 0, 500, 500), { pd ->
                 val result = ui.visit(Position2i(0, 0, 300, 300), { pd ->
-                    pd.uiDrawable.drawContent(batch, helper, pd.position)
-                    listOf("Drew ${pd.uiDrawable.type()} at ${pd.position.toString()}")
+                    pd.uiContainer.drawContent(batch, helper, pd.position)
+                    listOf("Drew ${pd.uiContainer.type()} at ${pd.position.toString()}")
 //                    println(pd.uiDrawable)
                 }, { l: List<String>, r: List<String> -> l + r })
 

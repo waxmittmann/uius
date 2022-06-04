@@ -3,6 +3,7 @@ package wittie.uius
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import wittie.uius.ui.*
 
 internal class VerticalTest {
 
@@ -20,8 +21,8 @@ internal class VerticalTest {
         vertical.add(d, Fixed(125))
 
         assertEquals(
-            listOf(PositionedDrawable(d, Position2i(Point2i(0, 0), Dimensions2i(100, 125)))),
-            vertical.children(Position2i(Point2i(0, 0), Dimensions2i(100, 200)))
+            listOf(PositionedContainer(d, Position2i(Point2i(0, 0), Dimensions2i(100, 125)))),
+            vertical.childContainers(Position2i(Point2i(0, 0), Dimensions2i(100, 200)))
         )
     }
 
@@ -34,10 +35,10 @@ internal class VerticalTest {
 
         assertEquals(
             listOf(
-                PositionedDrawable(d, Position2i(Point2i(0, 0), Dimensions2i(100, 125))),
-                PositionedDrawable(d, Position2i(Point2i(0, 125), Dimensions2i(100, 70)))
+                PositionedContainer(d, Position2i(Point2i(0, 0), Dimensions2i(100, 125))),
+                PositionedContainer(d, Position2i(Point2i(0, 125), Dimensions2i(100, 70)))
             ),
-            vertical.children(Position2i(Point2i(0, 0), Dimensions2i(100, 200)))
+            vertical.childContainers(Position2i(Point2i(0, 0), Dimensions2i(100, 200)))
         )
     }
 
@@ -48,8 +49,8 @@ internal class VerticalTest {
         vertical.add(d, Fill())
 
         assertEquals(
-            listOf(PositionedDrawable(d, Position2i(Point2i(0, 0), Dimensions2i(100, 200)))),
-            vertical.children(Position2i(Point2i(0, 0), Dimensions2i(100, 200)))
+            listOf(PositionedContainer(d, Position2i(Point2i(0, 0), Dimensions2i(100, 200)))),
+            vertical.childContainers(Position2i(Point2i(0, 0), Dimensions2i(100, 200)))
         )
     }
 
@@ -63,10 +64,10 @@ internal class VerticalTest {
 
         assertEquals(
             listOf(
-                PositionedDrawable(d1, Position2i(Point2i(0, 0), Dimensions2i(100, 100))),
-                PositionedDrawable(d2, Position2i(Point2i(0, 100), Dimensions2i(100, 100))),
+                PositionedContainer(d1, Position2i(Point2i(0, 0), Dimensions2i(100, 100))),
+                PositionedContainer(d2, Position2i(Point2i(0, 100), Dimensions2i(100, 100))),
             ),
-            vertical.children(Position2i(Point2i(0, 0), Dimensions2i(100, 200)))
+            vertical.childContainers(Position2i(Point2i(0, 0), Dimensions2i(100, 200)))
         )
     }
 
@@ -82,11 +83,11 @@ internal class VerticalTest {
 
         assertEquals(
             listOf(
-                PositionedDrawable(d1, Position2i(Point2i(0, 0), Dimensions2i(100, 100))),
-                PositionedDrawable(d2, Position2i(Point2i(0, 100), Dimensions2i(100, 200))),
-                PositionedDrawable(d2, Position2i(Point2i(0, 300), Dimensions2i(100, 300))),
+                PositionedContainer(d1, Position2i(Point2i(0, 0), Dimensions2i(100, 100))),
+                PositionedContainer(d2, Position2i(Point2i(0, 100), Dimensions2i(100, 200))),
+                PositionedContainer(d2, Position2i(Point2i(0, 300), Dimensions2i(100, 300))),
             ),
-            vertical.children(Position2i(Point2i(0, 0), Dimensions2i(100, 600)))
+            vertical.childContainers(Position2i(Point2i(0, 0), Dimensions2i(100, 600)))
         )
     }
 
@@ -97,8 +98,8 @@ internal class VerticalTest {
         vertical.add(d, Percentage(25))
 
         assertEquals(
-            listOf(PositionedDrawable(d, Position2i(Point2i(0, 0), Dimensions2i(100, 50)))),
-            vertical.children(Position2i(Point2i(0, 0), Dimensions2i(100, 200)))
+            listOf(PositionedContainer(d, Position2i(Point2i(0, 0), Dimensions2i(100, 50)))),
+            vertical.childContainers(Position2i(Point2i(0, 0), Dimensions2i(100, 200)))
         )
     }
 }
