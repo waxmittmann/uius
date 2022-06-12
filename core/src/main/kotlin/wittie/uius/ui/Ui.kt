@@ -1,11 +1,9 @@
 package wittie.uius.ui
 
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import wittie.uius.Position2i
-
-data class PositionedContainer(val uiContainer: UiContainer, val position: Position2i)
-
-data class PositionedDrawable(val uiDrawable: UiDrawable, val position: Position2i)
+import wittie.uius.ShapeHelper
 
 interface Background {
     fun toRectangle(): Rectangle
@@ -19,5 +17,30 @@ class ColorFill(val color: Color) : Background {
 
 sealed class Layout : UiContainer()
 
-data class UiDrawableWithFill(val drawable: UiContainer, val fill: FillBehavior)
+//fun toLayout(background: Background): Layout {
+//    return Rectangle(background.toRectangle())
+//}
 
+data class UiDrawableWithFill(val drawable: UiElement, val fill: FillBehavior)
+
+
+data class PositionedContainer(
+    val container: UiContainer, val position: Position2i,
+    val childContainers: Set<PositionedContainer>,
+    val childDrawables: Set<Pair<UiDrawable, Position2i>>,
+    val descendantDrawables: Set<Pair<UiDrawable, Position2i>>
+)
+
+
+
+sealed interface UiElement {
+    fun type(): String
+}
+
+sealed class UiDrawable : UiElement {
+    abstract fun drawContent(batch: SpriteBatch, shapeHelper: ShapeHelper, position: Position2i)
+}
+
+sealed class UiContainer : UiElement {
+    abstract fun positioned(position: Position2i): PositionedContainer
+}

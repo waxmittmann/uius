@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import wittie.uius.Position2i
 import wittie.uius.ShapeHelper
 
-class Rectangle(private val fill: Color) : UiContainer() {
-    private val shapeRenderer = ShapeRenderer()
-
-    override fun childContainers(position: Position2i): List<PositionedContainer> = listOf()
+class Rectangle(private val fill: Color) : UiDrawable() {
 
     override fun drawContent(batch: SpriteBatch, shapeHelper: ShapeHelper, position: Position2i) {
         shapeHelper.drawFilledRect(Color.BLUE, position)
@@ -24,5 +21,20 @@ class Rectangle(private val fill: Color) : UiContainer() {
 
     override fun type(): String {
         return "Rectangle"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Rectangle
+
+        if (fill != other.fill) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return fill.hashCode()
     }
 }

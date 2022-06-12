@@ -1,21 +1,55 @@
 package wittie.uius.ui
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import wittie.uius.Position2i
-import wittie.uius.ShapeHelper
 
-class RectangularArea(val layouts: List<Layout> = listOf()) : UiContainer() {
-    constructor(layout: Layout) : this(listOf(layout))
-    constructor(background: Background, layout: Layout) : this(listOf(layout, toLayout(background)))
-    constructor(background: Background, layouts: List<Layout> = listOf()) : this(listOf(toLayout(background)) + layouts)
+//class RectangularArea(val layouts: List<Layout> = listOf()) : UiContainer() {
+class RectangularArea(val elements: List<UiElement> = listOf()) : UiContainer() {
+    constructor(element: UiElement) : this(listOf(element))
+    constructor(background: Background, element: UiElement) : this(listOf(element, background.toRectangle()))
+    constructor(
+        background: Background,
+        elements: List<UiElement> = listOf()
+    ) : this(listOf(background.toRectangle()) + elements)
 
-    override fun childContainers(position: Position2i): List<PositionedContainer> {
-        return layouts.flatMap { layout -> layout.childContainers(position) }
-    }
-
-    override fun drawContent(batch: SpriteBatch, shapeHelper: ShapeHelper, position: Position2i) {}
+    override fun positioned(position: Position2i): PositionedContainer =
+        elements.fold(PositionedContainer(this, position, setOf(), setOf(), setOf())) { positionedContainer, element ->
+            when (element) {
+                is UiContainer -> {
+                    val posContainer = element.positioned(position)
+                    return positionedContainer.copy(
+                        childContainers = positionedContainer.childContainers + posContainer,
+                        descendantDrawables = positionedContainer.descendantDrawables + posContainer.descendantDrawables
+                    )
+                }
+                is UiDrawable -> positionedContainer.copy(
+                    descendantDrawables = positionedContainer.descendantDrawables + Pair(
+                        element,
+                        position
+                    ),
+                    childDrawables = positionedContainer.childDrawables + Pair(
+                        element,
+                        position
+                    )
+                )
+            }
+        }
 
     override fun type(): String {
         return "RectangularArea"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as RectangularArea
+
+        if (elements != other.elements) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return elements.hashCode()
     }
 }

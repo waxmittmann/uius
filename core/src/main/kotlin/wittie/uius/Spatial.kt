@@ -41,4 +41,5 @@ data class Position2i(val lowerLeft: Point2i, val dimensions: Dimensions2i) {
     }
 
     fun toRect(): Rect2i = Rect2i(lowerLeft, lowerLeft.let { ll -> Point2i(ll.x + dimensions.width, ll.y + dimensions.height) })
+    fun withHeight(height: Int): Position2i = this.copy(dimensions = this.dimensions.copy(height = height))
 }

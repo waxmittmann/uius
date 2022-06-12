@@ -29,15 +29,15 @@ class FirstScreen : KtxScreen {
 
 
     init {
-        fun localFn(positionedContainer: PositionedContainer): String {
-            return positionedContainer.uiContainer.type() + ", " + positionedContainer.position.toString()
-        }
-
-        fun foldFn(lhs: String, rhs: String): String {
-            return lhs + rhs
-        }
-
-        println("Result:\n" + ui().visit(Position2i(Point2i(0, 0), Dimensions2i(500, 500)), ::localFn, ::foldFn))
+//        fun localFn(positionedContainer: PositionedContainer): String {
+//            return positionedContainer.uiContainer.type() + ", " + positionedContainer.position.toString()
+//        }
+//
+//        fun foldFn(lhs: String, rhs: String): String {
+//            return lhs + rhs
+//        }
+//
+//        println("Result:\n" + ui().visit(Position2i(Point2i(0, 0), Dimensions2i(500, 500)), ::localFn, ::foldFn))
     }
 
     override fun render(delta: Float) {
@@ -49,11 +49,15 @@ class FirstScreen : KtxScreen {
 
             if (true) {
 //                val result = ui().visit(Position2i(0, 0, 500, 500), { pd ->
-                val result = ui.visit(Position2i(0, 0, 300, 300), { pd ->
-                    pd.uiContainer.drawContent(batch, helper, pd.position)
-                    listOf("Drew ${pd.uiContainer.type()} at ${pd.position.toString()}")
-//                    println(pd.uiDrawable)
-                }, { l: List<String>, r: List<String> -> l + r })
+
+                val drawables = ui.positioned(Position2i(0, 0, 300, 300)).descendantDrawables
+                drawables.forEach { (drawable, pos) -> drawable.drawContent(batch, helper, pos) }
+
+//                val result = ui.visit(Position2i(0, 0, 300, 300), { pd ->
+//                    pd.uiContainer.drawContent(batch, helper, pd.position)
+//                    listOf("Drew ${pd.uiContainer.type()} at ${pd.position.toString()}")
+////                    println(pd.uiDrawable)
+//                }, { l: List<String>, r: List<String> -> l + r })
 
 //                if (time > lastTime + 1) {
 //                    println(result)

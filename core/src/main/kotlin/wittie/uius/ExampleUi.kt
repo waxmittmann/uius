@@ -7,12 +7,13 @@ fun menu(): RectangularArea {
     return RectangularArea(
 //        background = ColorFill(Color.DARK_GRAY),
         background = ColorFill(Color.PURPLE),
-        layout = Vertical().apply {
+        element = Vertical().apply {
             add(
                 content = RectangularArea(
 //                    background = ColorFill(Color.GRAY),
                     background = ColorFill(Color.GREEN),
-                    layout = Single(Text("Game"))
+//                    layout = Single(Text("Game"))
+                    element = Text("Game")
                 ),
                 fill = Percentage(20)
             )
@@ -20,7 +21,7 @@ fun menu(): RectangularArea {
                 content = RectangularArea(
 //                    background = ColorFill(Color.LIGHT_GRAY),
                     background = ColorFill(Color.BLUE),
-                    layout = Single(Text("Options"))
+                    element = Text("Options")
                 ),
                 fill = Percentage(20)
             )
@@ -36,7 +37,11 @@ fun gameArea(): RectangularArea {
 
 fun ui(): RectangularArea {
     return RectangularArea(
-        layout = Horizontal().apply {
+//        element = Horizontal().apply {
+//            add(content = menu(), fill = Fixed(120))
+//            add(content = gameArea(), fill = Fill())
+//        }
+        element = Vertical().apply {
             add(content = menu(), fill = Fixed(120))
             add(content = gameArea(), fill = Fill())
         }
