@@ -26,9 +26,9 @@ data class UiDrawableWithFill(val drawable: UiElement, val fill: FillBehavior)
 
 data class PositionedContainer(
     val container: UiContainer, val position: Position2i,
-    val childContainers: Set<PositionedContainer>,
-    val childDrawables: Set<Pair<UiDrawable, Position2i>>,
-    val descendantDrawables: Set<Pair<UiDrawable, Position2i>>
+    val childContainers: List<PositionedContainer>,
+    val childDrawables: List<Pair<UiDrawable, Position2i>>,
+    val descendantDrawables: List<Pair<UiDrawable, Position2i>>
 )
 
 

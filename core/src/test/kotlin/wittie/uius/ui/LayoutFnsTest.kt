@@ -1,4 +1,4 @@
-package wittie.uius
+package wittie.uius.ui
 
 //import com.wittie.testbed.*
 import org.junit.jupiter.api.Test

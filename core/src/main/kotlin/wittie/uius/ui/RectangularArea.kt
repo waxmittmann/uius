@@ -12,7 +12,7 @@ class RectangularArea(val elements: List<UiElement> = listOf()) : UiContainer() 
     ) : this(listOf(background.toRectangle()) + elements)
 
     override fun positioned(position: Position2i): PositionedContainer =
-        elements.fold(PositionedContainer(this, position, setOf(), setOf(), setOf())) { positionedContainer, element ->
+        elements.fold(PositionedContainer(this, position, listOf(), listOf(), listOf())) { positionedContainer, element ->
             when (element) {
                 is UiContainer -> {
                     val posContainer = element.positioned(position)

@@ -1,5 +1,6 @@
 package wittie.uius
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.Texture.TextureFilter.Linear
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -50,7 +51,11 @@ class FirstScreen : KtxScreen {
             if (true) {
 //                val result = ui().visit(Position2i(0, 0, 500, 500), { pd ->
 
-                val drawables = ui.positioned(Position2i(0, 0, 300, 300)).descendantDrawables
+                val width = Gdx.graphics.width
+                val height = Gdx.graphics.height
+
+//                val drawables = ui.positioned(Position2i(0, 0, 300, 300)).descendantDrawables
+                val drawables = ui.positioned(Position2i(0, 0, width, height)).descendantDrawables
                 drawables.forEach { (drawable, pos) -> drawable.drawContent(batch, helper, pos) }
 
 //                val result = ui.visit(Position2i(0, 0, 300, 300), { pd ->

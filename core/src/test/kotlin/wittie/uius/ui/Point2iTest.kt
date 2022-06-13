@@ -1,7 +1,8 @@
-package wittie.uius
+package wittie.uius.ui
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import wittie.uius.Point2i
 
 internal class Point2iTest {
     @Test

@@ -6,10 +6,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import wittie.uius.Position2i
 import wittie.uius.ShapeHelper
 
-class Rectangle(private val fill: Color) : UiDrawable() {
+class Rectangle(private val fillColor: Color) : UiDrawable() {
 
     override fun drawContent(batch: SpriteBatch, shapeHelper: ShapeHelper, position: Position2i) {
-        shapeHelper.drawFilledRect(Color.BLUE, position)
+        shapeHelper.drawFilledRect(fillColor, position)
 
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
 //        shapeRenderer.color = fill
@@ -29,12 +29,12 @@ class Rectangle(private val fill: Color) : UiDrawable() {
 
         other as Rectangle
 
-        if (fill != other.fill) return false
+        if (fillColor != other.fillColor) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return fill.hashCode()
+        return fillColor.hashCode()
     }
 }

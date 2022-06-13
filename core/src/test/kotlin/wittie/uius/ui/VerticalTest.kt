@@ -1,11 +1,23 @@
-package wittie.uius
+package wittie.uius.ui
 
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
-import wittie.uius.ui.*
+import wittie.uius.Dimensions2i
+import wittie.uius.Point2i
+import wittie.uius.Position2i
 
 internal class VerticalTest {
+    private fun nonNestedContainer(container: UiContainer, position: Position2i, children: List<Pair<Text, Position2i>>): PositionedContainer =
+        PositionedContainer(container, position, listOf(), children, children)
+
+    private fun nestedContainer(
+        root: UiContainer,
+        position: Position2i,
+        childContainers: List<PositionedContainer>,
+        childDrawables: List<Pair<Text, Position2i>>
+    ) = PositionedContainer(root, position, childContainers, childDrawables,
+        childContainers.flatMap { c -> c.descendantDrawables })
 
     @Test
     fun singleContainerShouldWork() {
@@ -16,7 +28,7 @@ internal class VerticalTest {
 
         assertEquals(
             nonNestedContainer(
-                vertical, p, setOf(Pair(d, p.withHeight(125)))
+                vertical, p, listOf(Pair(d, p.withHeight(125)))
             ), vertical.positioned(p)
         )
     }
@@ -31,7 +43,7 @@ internal class VerticalTest {
 
         assertEquals(
             nonNestedContainer(
-                vertical, p, setOf(Pair(d, p.withHeight(75)), Pair(d, p.withHeight(125)))
+                vertical, p, listOf(Pair(d, p.withHeight(75)), Pair(d, p.withHeight(125)))
             ), vertical.positioned(p)
         )
     }
@@ -45,7 +57,7 @@ internal class VerticalTest {
 
         assertEquals(
             nonNestedContainer(
-                vertical, p, setOf(Pair(d, p.withHeight(200)))
+                vertical, p, listOf(Pair(d, p.withHeight(200)))
             ), vertical.positioned(p)
         )
     }
@@ -60,7 +72,7 @@ internal class VerticalTest {
 
         assertEquals(
             nonNestedContainer(
-                vertical, p, setOf(Pair(d, p.withHeight(100)), Pair(d, p.withHeight(100)))
+                vertical, p, listOf(Pair(d, p.withHeight(100)), Pair(d, p.withHeight(100)))
             ), vertical.positioned(p)
         )
     }
@@ -78,7 +90,7 @@ internal class VerticalTest {
             nonNestedContainer(
                 vertical,
                 p,
-                setOf(Pair(d, p.withHeight(50)), Pair(d, p.withHeight(120)), Pair(d, p.withHeight(30)))
+                listOf(Pair(d, p.withHeight(50)), Pair(d, p.withHeight(120)), Pair(d, p.withHeight(30)))
             ), vertical.positioned(p)
         )
     }
@@ -92,7 +104,7 @@ internal class VerticalTest {
 
         assertEquals(
             nonNestedContainer(
-                vertical, p, setOf(Pair(d, p.withHeight(120)))
+                vertical, p, listOf(Pair(d, p.withHeight(120)))
             ), vertical.positioned(p)
         )
     }
@@ -107,7 +119,7 @@ internal class VerticalTest {
 
         assertEquals(
             nonNestedContainer(
-                vertical, p, setOf(
+                vertical, p, listOf(
                     Pair(d, p.withHeight(120)),
                     Pair(d, p.withHeight(80))
                 )
@@ -125,16 +137,13 @@ internal class VerticalTest {
 
         assertEquals(
             nonNestedContainer(
-                vertical, p, setOf(
+                vertical, p, listOf(
                     Pair(d, p.withHeight(120)),
                     Pair(d, p.withHeight(50))
                 )
             ), vertical.positioned(p)
         )
     }
-
-    private fun nonNestedContainer(container: UiContainer, position: Position2i, children: Set<Pair<Text, Position2i>>): PositionedContainer =
-        PositionedContainer(container, position, setOf(), children, children)
 
     @Test
     fun fixedFillAndPercentageShouldWork() {
@@ -147,45 +156,46 @@ internal class VerticalTest {
         val p = Position2i(Point2i(0, 0), Dimensions2i(100, 200))
 
         assertEquals(
-            nonNestedContainer(vertical, p, setOf(
+            nonNestedContainer(vertical, p, listOf(
                 Pair(d, p.withHeight(30)),
                 Pair(d, p.withHeight(50)),
                 Pair(d, p.withHeight(80)),
                 Pair(d, p.withHeight(40))
             )),
-//            PositionedContainer(
-//                vertical, p, setOf(), setOf(
-//                    Pair(d, p.withHeight(30)),
-//                    Pair(d, p.withHeight(50)),
-//                    Pair(d, p.withHeight(80)),
-//                    Pair(d, p.withHeight(40))
-//                )
-//            ),
             vertical.positioned(p)
         )
     }
 
-//    @Test
-//    fun nestedContainersShouldWork() {
-//        val d = Text("A")
-//
-//        val child1 = Vertical()
-//        child1.add(d, Fill())
-//
-//        val child2 = Vertical()
-//        child2.add(d, Fill())
-//
-//        val parent = Vertical()
-//        parent.add(child1, Fill(100))
-//        parent.add(child2, Fill(50))
-//
-//        val p = Position2i(Point2i(0, 0), Dimensions2i(100, 200))
-//
-//        assertEquals(
-//            PositionedContainer(
-//                parent, p, setOf(PositionedContainer(), PositionedContainer()), setOf(Pair(d, p.withHeight(125)))
-//            ), parent.positioned(p)
-//        )
-//    }
+    @Test
+    fun nestedContainersShouldWork() {
+        val d = Text("A")
 
+        val child1 = Vertical()
+        child1.add(d, Fill())
+
+        val child2 = Vertical()
+        child2.add(d, Fill())
+
+        val parent = Vertical()
+        parent.add(child1, Fill(75))
+        parent.add(child2, Fill(25))
+
+        val p = Position2i(Point2i(0, 0), Dimensions2i(100, 200))
+
+        assertEquals(
+            nestedContainer(
+                parent,
+                p,
+                listOf(nonNestedContainer(
+                        child1, Position2i(0, 0, 100, 150),
+                        listOf(Pair(d, Position2i(0, 0, 100, 150)))
+                    ), nonNestedContainer(
+                        child2, Position2i(0, 150, 100, 50),
+                        listOf(Pair(d, Position2i(0, 150, 100, 50)))
+                    )
+                ),
+                listOf()
+            ), parent.positioned(p)
+        )
+    }
 }

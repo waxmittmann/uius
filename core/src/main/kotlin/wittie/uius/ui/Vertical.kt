@@ -19,11 +19,11 @@ class Vertical : Layout() {
 
         data class Data(
             val yAt: Int = position.yMin(),
-            val positionedContainer: PositionedContainer = PositionedContainer(this, position, setOf(), setOf(), setOf())
+            val positionedContainer: PositionedContainer = PositionedContainer(this, position, listOf(), listOf(), listOf())
         )
 
-        return children.fold(Data()) { (yAt, container), (child, fill) ->
-            val pos = when (fill) {
+        val rv = children.fold(Data()) { (yAt, container), (child, fill) ->
+            val childPosition = when (fill) {
                 is Fill ->
                     Position2i(
                         position.lowerLeft.copy(y = yAt),
@@ -50,9 +50,9 @@ class Vertical : Layout() {
 
             when (child) {
                 is UiContainer -> {
-                    val positionedChild = child.positioned(position)
+                    val positionedChild = child.positioned(childPosition)
                     Data(
-                        pos.yMin(),
+                        childPosition.yMax(),
                         // 'childDrawables' unchanged.
                         container.copy(
                             childContainers = container.childContainers + positionedChild,
@@ -62,12 +62,15 @@ class Vertical : Layout() {
                 }
                 is UiDrawable ->
                     Data(
-                        pos.yMin(),
-                        container.copy(descendantDrawables = container.descendantDrawables + Pair(child, pos),
-                        childDrawables = container.childDrawables + Pair(child, pos))
+                        childPosition.yMax(),
+                        container.copy(
+                            descendantDrawables = container.descendantDrawables + Pair(child, childPosition),
+                            childDrawables = container.childDrawables + Pair(child, childPosition)
+                        )
                     )
             }
         }.positionedContainer
+        return rv
     }
 
     override fun type(): String {
