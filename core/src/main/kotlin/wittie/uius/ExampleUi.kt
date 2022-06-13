@@ -56,15 +56,20 @@ fun gameArea(): RectangularArea {
     )
 }
 
+fun sidePanel(): RectangularArea {
+    return RectangularArea(
+        background = ColorFill(Color.PURPLE)
+    )
+}
+
 fun ui(): RectangularArea {
     return RectangularArea(
         element = Vertical().apply {
-            add(content = gameArea(), fill = Fill())
+            add(content = Horizontal().apply {
+                add(content = gameArea(), fill = Fill())
+                add(content = sidePanel(), fill = Fixed(150))
+            }, fill = Fill())
             add(content = menu(), fill = Fixed(50))
         }
-//        element = Vertical().apply {
-//            add(content = menu(), fill = Fixed(120))
-//            add(content = gameArea(), fill = Fill())
-//        }
     )
 }
