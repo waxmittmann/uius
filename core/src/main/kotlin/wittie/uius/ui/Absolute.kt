@@ -9,7 +9,7 @@ class Absolute(private val children: MutableList<Pair<UiElement, Position2i>> = 
     }
 
     override fun positioned(position: Position2i): PositionedContainer =
-        children.fold(PositionedContainer(this, position, listOf(), listOf(), listOf())) { pc: PositionedContainer, (child, position) ->
+        children.fold(PositionedContainer(this, position, listOf(), listOf(), listOf())) { pc: PositionedContainer, (child: UiElement, position) ->
             when(child) {
                 is UiDrawable -> pc.addDrawable(child, position)
                 is UiContainer -> pc.addContainer(child.positioned(position))

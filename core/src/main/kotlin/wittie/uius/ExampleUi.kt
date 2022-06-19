@@ -78,7 +78,7 @@ fun ui(): RectangularArea {
             },
             Absolute(
                 mutableListOf(
-                    Pair(Circle(Color.BLUE), Position2i(50, 50, 10, 10))
+                    Pair(Circle(Color.BLUE), Position2i(50, 50, 5, 5))
                 )
             ),
         ))

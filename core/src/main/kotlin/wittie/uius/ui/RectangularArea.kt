@@ -17,10 +17,10 @@ class RectangularArea(val elements: List<UiElement> = listOf()) : UiContainer() 
         elements.fold(PositionedContainer(this, position, listOf(), listOf(), listOf())) { positionedContainer, element ->
             when (element) {
                 is UiContainer -> {
-                    val posContainer = element.positioned(position)
-                    return positionedContainer.copy(
-                        childContainers = positionedContainer.childContainers + posContainer,
-                        descendantDrawables = positionedContainer.descendantDrawables + posContainer.descendantDrawables
+                    val childContainer = element.positioned(position)
+                    positionedContainer.copy(
+                        childContainers = positionedContainer.childContainers + childContainer,
+                        descendantDrawables = positionedContainer.descendantDrawables + childContainer.descendantDrawables
                     )
                 }
                 is UiDrawable -> positionedContainer.copy(
