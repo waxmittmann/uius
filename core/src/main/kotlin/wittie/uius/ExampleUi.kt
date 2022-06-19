@@ -30,25 +30,29 @@ import wittie.uius.ui.*
 //}
 
 fun menu(): UiContainer =
-    Horizontal().apply {
-            add(
-                content = RectangularArea(
+    RectangularArea(
+        listOf(
+            Horizontal().apply {
+                add(
+                    content = RectangularArea(
 //                    background = ColorFill(Color.GRAY),
-                    background = ColorFill(Color.GREEN),
+                        background = ColorFill(Color.GREEN),
 //                    layout = Single(Text("Game"))
-                    element = Text("Game")
-                ),
-                fill = Fixed(80)
-            )
-            add(
-                content = RectangularArea(
+                        element = Text("Game")
+                    ),
+                    fill = Fixed(80)
+                )
+                add(
+                    content = RectangularArea(
 //                    background = ColorFill(Color.LIGHT_GRAY),
-                    background = ColorFill(Color.BLUE),
-                    element = Text("Options")
-                ),
-                fill = Fixed(80)
-            )
-        }
+                        background = ColorFill(Color.BLUE),
+                        element = Text("Options")
+                    ),
+                    fill = Fixed(80)
+                )
+            }
+        )
+    )
 
 fun gameArea(): RectangularArea {
     return RectangularArea(
@@ -64,12 +68,18 @@ fun sidePanel(): RectangularArea {
 
 fun ui(): RectangularArea {
     return RectangularArea(
-        element = Vertical().apply {
-            add(content = Horizontal().apply {
-                add(content = gameArea(), fill = Fill())
-                add(content = sidePanel(), fill = Fixed(150))
-            }, fill = Fill())
-            add(content = menu(), fill = Fixed(50))
-        }
-    )
+        listOf(
+            Vertical().apply {
+                add(content = Horizontal().apply {
+                    add(content = gameArea(), fill = Fill())
+                    add(content = sidePanel(), fill = Fixed(150))
+                }, fill = Fill())
+                add(content = menu(), fill = Fixed(50))
+            },
+            Absolute(
+                mutableListOf(
+                    Pair(Circle(Color.BLUE), Position2i(50, 50, 10, 10))
+                )
+            ),
+        ))
 }

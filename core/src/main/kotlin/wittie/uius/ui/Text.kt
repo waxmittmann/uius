@@ -12,22 +12,9 @@ class Text(val text: String) : UiDrawable() {
 //        font.color = Color.RED
     }
 
-//    override fun children(position: Position2i): List<PositionedDrawable> =
-//
-//    override fun children(position: Position2i): List<PositionedDrawable> {
-//        return listOf(PositionedDrawable(this, position))
-//    }
-
     override fun drawContent(batch: SpriteBatch, shapeHelper: ShapeHelper, position: Position2i) {
-        shapeHelper.drawFilledRect(Color.BLUE, position)
-
-//        shapeHelper.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
-//        shapeHelper.shapeRenderer.color = Color.BLUE
-//        shapeHelper.shapeRenderer.rect(
-//            position.xMin().toFloat(), position.yMin().toFloat(), position.dimensions.width.toFloat(),
-//            position.dimensions.height.toFloat()
-//        )
-//        shapeHelper.shapeRenderer.end()
+        shapeHelper.drawText(batch, text, position.lowerLeft)
+//        shapeHelper.drawFilledRect(Color.BLUE, position)
     }
 
     override fun type(): String {

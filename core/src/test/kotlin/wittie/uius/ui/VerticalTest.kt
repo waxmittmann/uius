@@ -43,7 +43,7 @@ internal class VerticalTest {
 
         assertEquals(
             nonNestedContainer(
-                vertical, p, listOf(Pair(d, p.withHeight(75)), Pair(d, p.withHeight(125)))
+                vertical, p, listOf(Pair(d, p.withHeight(75)), Pair(d, p.withHeight(125).withY(75)))
             ), vertical.positioned(p)
         )
     }
@@ -72,7 +72,7 @@ internal class VerticalTest {
 
         assertEquals(
             nonNestedContainer(
-                vertical, p, listOf(Pair(d, p.withHeight(100)), Pair(d, p.withHeight(100)))
+                vertical, p, listOf(Pair(d, p.withHeight(100)), Pair(d, p.withHeight(100).withY(100)))
             ), vertical.positioned(p)
         )
     }
@@ -90,7 +90,7 @@ internal class VerticalTest {
             nonNestedContainer(
                 vertical,
                 p,
-                listOf(Pair(d, p.withHeight(50)), Pair(d, p.withHeight(120)), Pair(d, p.withHeight(30)))
+                listOf(Pair(d, p.withHeight(50)), Pair(d, p.withHeight(120).withY(50)), Pair(d, p.withHeight(30).withY(170)))
             ), vertical.positioned(p)
         )
     }
@@ -121,7 +121,7 @@ internal class VerticalTest {
             nonNestedContainer(
                 vertical, p, listOf(
                     Pair(d, p.withHeight(120)),
-                    Pair(d, p.withHeight(80))
+                    Pair(d, p.withHeight(80).withY(120))
                 )
             ), vertical.positioned(p)
         )
@@ -139,7 +139,7 @@ internal class VerticalTest {
             nonNestedContainer(
                 vertical, p, listOf(
                     Pair(d, p.withHeight(120)),
-                    Pair(d, p.withHeight(50))
+                    Pair(d, p.withHeight(50).withY(120))
                 )
             ), vertical.positioned(p)
         )
@@ -158,9 +158,9 @@ internal class VerticalTest {
         assertEquals(
             nonNestedContainer(vertical, p, listOf(
                 Pair(d, p.withHeight(30)),
-                Pair(d, p.withHeight(50)),
-                Pair(d, p.withHeight(80)),
-                Pair(d, p.withHeight(40))
+                Pair(d, p.withHeight(50).withY(30)),
+                Pair(d, p.withHeight(80).withY(80)),
+                Pair(d, p.withHeight(40).withY(160))
             )),
             vertical.positioned(p)
         )

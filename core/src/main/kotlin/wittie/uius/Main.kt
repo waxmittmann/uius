@@ -45,7 +45,7 @@ class FirstScreen : KtxScreen {
         time += delta
         clearScreen(red = 0.7f, green = 0.7f, blue = 0.7f)
         val helper = ShapeHelper(ShapeRenderer())
-        batch.use {
+//        batch.use {
 //            it.draw(image, 100f, 160f)
 
             if (true) {
@@ -71,7 +71,7 @@ class FirstScreen : KtxScreen {
             }
 
 //            ui.
-        }
+//        }
     }
 
     override fun dispose() {

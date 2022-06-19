@@ -29,8 +29,13 @@ data class PositionedContainer(
     val childContainers: List<PositionedContainer>,
     val childDrawables: List<Pair<UiDrawable, Position2i>>,
     val descendantDrawables: List<Pair<UiDrawable, Position2i>>
-)
+) {
+    fun addDrawable(child: UiDrawable, position: Position2i): PositionedContainer =
+        this.copy(childDrawables = this.childDrawables + Pair(child, position))
 
+    fun addContainer(positioned: PositionedContainer): PositionedContainer =
+        this.copy(childContainers = this.childContainers + positioned, descendantDrawables = this.descendantDrawables + positioned.childDrawables)
+}
 
 
 sealed interface UiElement {

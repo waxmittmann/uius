@@ -1,5 +1,7 @@
 package wittie.uius
 
+import kotlin.math.min
+
 data class Point2i(val x: Int, val y: Int) {
     fun set(newX: Int = x, newY: Int = y): Point2i {
         return Point2i(newX, newY)
@@ -48,4 +50,10 @@ data class Position2i(val lowerLeft: Point2i, val dimensions: Dimensions2i) {
     }
 
     fun withWidth(width: Int): Position2i = this.copy(dimensions = this.dimensions.copy(width = width))
+    fun center(): Point2i = Point2i(lowerLeft.x + dimensions.width / 2, lowerLeft.y + dimensions.height / 2)
+
+    fun minDim(): Int = min(dimensions.width, dimensions.height)
+
+    fun withY(y: Int): Position2i = this.copy(lowerLeft = lowerLeft.copy(y = y))
+    fun withX(x: Int): Position2i = this.copy(lowerLeft = lowerLeft.copy(x = x))
 }

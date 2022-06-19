@@ -72,7 +72,7 @@ class Horizontal : Layout() {
     }
 
     override fun type(): String {
-        return "Vertical"
+        return "Horizontal"
     }
 
     override fun equals(other: Any?): Boolean {

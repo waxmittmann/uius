@@ -33,169 +33,171 @@ internal class HorizontalTest {
         )
     }
 //
-//    @Test
-//    fun singleContainerWithTwoItemsShouldWork() {
-//        val Horizontal = Horizontal()
-//        val d = Text("A")
-//        Horizontal.add(d, Fixed(75))
-//        Horizontal.add(d, Fixed(125))
-//        val p = Position2i(Point2i(0, 0), Dimensions2i(100, 200))
+    @Test
+    fun singleContainerWithTwoItemsShouldWork() {
+        val horizontal = Horizontal()
+        val d = Text("A")
+        horizontal.add(d, Fixed(75))
+        horizontal.add(d, Fixed(125))
+        val p = Position2i(Point2i(0, 0), Dimensions2i(200, 100))
+
+        assertEquals(
+            nonNestedContainer(
+                horizontal, p, listOf(Pair(d, p.withWidth(75)), Pair(d, p.withWidth(125).withX(75)))
+            ), horizontal.positioned(p)
+        )
+    }
+
+
+    @Test
+    fun oneChildShouldFill() {
+        val horizontal = Horizontal()
+        val d = Text("A")
+        horizontal.add(d, Fill())
+        val p = Position2i(Point2i(0, 0), Dimensions2i(200, 100))
+
+        assertEquals(
+            nonNestedContainer(
+                horizontal, p, listOf(Pair(d, p.withWidth(200)))
+            ), horizontal.positioned(p)
+        )
+    }
+
+    @Test
+    fun twoChildrenShouldShareFill() {
+        val horizontal = Horizontal()
+        val d = Text("A")
+        horizontal.add(d, Fill())
+        horizontal.add(d, Fill())
+        val p = Position2i(Point2i(0, 0), Dimensions2i(200, 100))
+
+        assertEquals(
+            nonNestedContainer(
+                horizontal, p, listOf(Pair(d, p.withWidth(100)), Pair(d, p.withWidth(100).withX(100)))
+            ), horizontal.positioned(p)
+        )
+    }
+
+    @Test
+    fun threeChildrenShouldShareFillProportionally() {
+        val horizontal = Horizontal()
+        val d = Text("A")
+        horizontal.add(d, Fill(25))
+        horizontal.add(d, Fill(60))
+        horizontal.add(d, Fill(15))
+        val p = Position2i(Point2i(0, 0), Dimensions2i(200, 100))
+
+        assertEquals(
+            nonNestedContainer(
+                horizontal,
+                p,
+                listOf(Pair(d, p.withWidth(50)), Pair(d, p.withWidth(120).withX(50)), Pair(d, p.withWidth(30).withX(170)))
+            ), horizontal.positioned(p)
+        )
+    }
+
+    @Test
+    fun singlePercentageShouldWork() {
+        val horizontal = Horizontal()
+        val d = Text("A")
+        horizontal.add(d, Percentage(60))
+        val p = Position2i(Point2i(0, 0), Dimensions2i(200, 100))
+
+        assertEquals(
+            nonNestedContainer(
+                horizontal, p, listOf(Pair(d, p.withWidth(120)))
+            ), horizontal.positioned(p)
+        )
+    }
+
+    @Test
+    fun percentageAndFillShouldWork() {
+        val horizontal = Horizontal()
+        val d = Text("A")
+        horizontal.add(d, Percentage(60))
+        horizontal.add(d, Fill())
+        val p = Position2i(Point2i(0, 0), Dimensions2i(200, 100))
+
+        assertEquals(
+            nonNestedContainer(
+                horizontal, p, listOf(
+                    Pair(d, p.withWidth(120)),
+                    Pair(d, p.withWidth(80).withX(120))
+                )
+            ), horizontal.positioned(p)
+        )
+    }
+
+    @Test
+    fun percentageAndFixedShouldWork() {
+        val horizontal = Horizontal()
+        val d = Text("A")
+        horizontal.add(d, Percentage(60))
+        horizontal.add(d, Fixed(50))
+        val p = Position2i(Point2i(0, 0), Dimensions2i(200, 100))
+
+        assertEquals(
+            nonNestedContainer(
+                horizontal, p, listOf(
+                    Pair(d, p.withWidth(120)),
+                    Pair(d, p.withWidth(50).withX(120))
+                )
+            ), horizontal.positioned(p)
+        )
+    }
+
+    @Test
+    fun fixedFillAndPercentageShouldWork() {
+        val horizontal = Horizontal()
+        val d = Text("A")
+        horizontal.add(d, Percentage(15)) // 30
+        horizontal.add(d, Fixed(50)) // 50
+        horizontal.add(d, Fill(80)) // 200 - 80 * 2/3 = 120 * 2/3 = 80
+        horizontal.add(d, Fill(40))
+        val p = Position2i(Point2i(0, 0), Dimensions2i(200, 100))
+
+        assertEquals(
+            nonNestedContainer(horizontal, p, listOf(
+                Pair(d, p.withWidth(30)),
+                Pair(d, p.withWidth(50).withX(30)),
+                Pair(d, p.withWidth(80).withX(80)),
+                Pair(d, p.withWidth(40).withX(160))
+            )),
+            horizontal.positioned(p)
+        )
+    }
+
+    @Test
+    fun nestedContainersShouldWork() {
+        val d = Text("A")
+
+        val child1 = Horizontal()
+        child1.add(d, Fill())
+
+        val child2 = Horizontal()
+        child2.add(d, Fill())
+
+        val parent = Horizontal()
+        parent.add(child1, Fill(75))
+        parent.add(child2, Fill(25))
+
+        val p = Position2i(Point2i(0, 0), Dimensions2i(200, 100))
+
+        assertEquals(
+            nestedContainer(
+                parent,
+                p,
+                listOf(nonNestedContainer(
+                    child1, Position2i(0, 0, 150, 100),
+                    listOf(Pair(d, Position2i(0, 0, 150, 100)))
+                ), nonNestedContainer(
+                    child2, Position2i(150, 0, 50, 100),
+                    listOf(Pair(d, Position2i(150, 0, 50, 100)))
+                )
+                ),
+                listOf()
+            ), parent.positioned(p)
+        )
+    }
 //
-//        assertEquals(
-//            nonNestedContainer(
-//                Horizontal, p, listOf(Pair(d, p.withHeight(75)), Pair(d, p.withHeight(125)))
-//            ), Horizontal.positioned(p)
-//        )
-//    }
-//
-//    @Test
-//    fun oneChildShouldFill() {
-//        val Horizontal = Horizontal()
-//        val d = Text("A")
-//        Horizontal.add(d, Fill())
-//        val p = Position2i(Point2i(0, 0), Dimensions2i(100, 200))
-//
-//        assertEquals(
-//            nonNestedContainer(
-//                Horizontal, p, listOf(Pair(d, p.withHeight(200)))
-//            ), Horizontal.positioned(p)
-//        )
-//    }
-//
-//    @Test
-//    fun twoChildrenShouldShareFill() {
-//        val Horizontal = Horizontal()
-//        val d = Text("A")
-//        Horizontal.add(d, Fill())
-//        Horizontal.add(d, Fill())
-//        val p = Position2i(Point2i(0, 0), Dimensions2i(100, 200))
-//
-//        assertEquals(
-//            nonNestedContainer(
-//                Horizontal, p, listOf(Pair(d, p.withHeight(100)), Pair(d, p.withHeight(100)))
-//            ), Horizontal.positioned(p)
-//        )
-//    }
-//
-//    @Test
-//    fun threeChildrenShouldShareFillProportionally() {
-//        val Horizontal = Horizontal()
-//        val d = Text("A")
-//        Horizontal.add(d, Fill(25))
-//        Horizontal.add(d, Fill(60))
-//        Horizontal.add(d, Fill(15))
-//        val p = Position2i(Point2i(0, 0), Dimensions2i(100, 200))
-//
-//        assertEquals(
-//            nonNestedContainer(
-//                Horizontal,
-//                p,
-//                listOf(Pair(d, p.withHeight(50)), Pair(d, p.withHeight(120)), Pair(d, p.withHeight(30)))
-//            ), Horizontal.positioned(p)
-//        )
-//    }
-//
-//    @Test
-//    fun singlePercentageShouldWork() {
-//        val Horizontal = Horizontal()
-//        val d = Text("A")
-//        Horizontal.add(d, Percentage(60))
-//        val p = Position2i(Point2i(0, 0), Dimensions2i(100, 200))
-//
-//        assertEquals(
-//            nonNestedContainer(
-//                Horizontal, p, listOf(Pair(d, p.withHeight(120)))
-//            ), Horizontal.positioned(p)
-//        )
-//    }
-//
-//    @Test
-//    fun percentageAndFillShouldWork() {
-//        val Horizontal = Horizontal()
-//        val d = Text("A")
-//        Horizontal.add(d, Percentage(60))
-//        Horizontal.add(d, Fill())
-//        val p = Position2i(Point2i(0, 0), Dimensions2i(100, 200))
-//
-//        assertEquals(
-//            nonNestedContainer(
-//                Horizontal, p, listOf(
-//                    Pair(d, p.withHeight(120)),
-//                    Pair(d, p.withHeight(80))
-//                )
-//            ), Horizontal.positioned(p)
-//        )
-//    }
-//
-//    @Test
-//    fun percentageAndFixedShouldWork() {
-//        val Horizontal = Horizontal()
-//        val d = Text("A")
-//        Horizontal.add(d, Percentage(60))
-//        Horizontal.add(d, Fixed(50))
-//        val p = Position2i(Point2i(0, 0), Dimensions2i(100, 200))
-//
-//        assertEquals(
-//            nonNestedContainer(
-//                Horizontal, p, listOf(
-//                    Pair(d, p.withHeight(120)),
-//                    Pair(d, p.withHeight(50))
-//                )
-//            ), Horizontal.positioned(p)
-//        )
-//    }
-//
-//    @Test
-//    fun fixedFillAndPercentageShouldWork() {
-//        val Horizontal = Horizontal()
-//        val d = Text("A")
-//        Horizontal.add(d, Percentage(15)) // 30
-//        Horizontal.add(d, Fixed(50)) // 50
-//        Horizontal.add(d, Fill(80)) // 200 - 80 * 2/3 = 120 * 2/3 = 80
-//        Horizontal.add(d, Fill(40))
-//        val p = Position2i(Point2i(0, 0), Dimensions2i(100, 200))
-//
-//        assertEquals(
-//            nonNestedContainer(Horizontal, p, listOf(
-//                Pair(d, p.withHeight(30)),
-//                Pair(d, p.withHeight(50)),
-//                Pair(d, p.withHeight(80)),
-//                Pair(d, p.withHeight(40))
-//            )),
-//            Horizontal.positioned(p)
-//        )
-//    }
-//
-//    @Test
-//    fun nestedContainersShouldWork() {
-//        val d = Text("A")
-//
-//        val child1 = Horizontal()
-//        child1.add(d, Fill())
-//
-//        val child2 = Horizontal()
-//        child2.add(d, Fill())
-//
-//        val parent = Horizontal()
-//        parent.add(child1, Fill(75))
-//        parent.add(child2, Fill(25))
-//
-//        val p = Position2i(Point2i(0, 0), Dimensions2i(100, 200))
-//
-//        assertEquals(
-//            nestedContainer(
-//                parent,
-//                p,
-//                listOf(nonNestedContainer(
-//                    child1, Position2i(0, 0, 100, 150),
-//                    listOf(Pair(d, Position2i(0, 0, 100, 150)))
-//                ), nonNestedContainer(
-//                    child2, Position2i(0, 150, 100, 50),
-//                    listOf(Pair(d, Position2i(0, 150, 100, 50)))
-//                )
-//                ),
-//                listOf()
-//            ), parent.positioned(p)
-//        )
-//    }
 }
