@@ -7,6 +7,7 @@ data class Point2i(val x: Int, val y: Int) {
         return Point2i(newX, newY)
     }
     override fun toString(): String = "(x: $x, y: $y)"
+    fun add(other: Point2i): Point2i = Point2i(x + other.x, y + other.y)
 }
 
 data class Rect2i(val ll: Point2i, val ur: Point2i)
@@ -56,4 +57,5 @@ data class Position2i(val lowerLeft: Point2i, val dimensions: Dimensions2i) {
 
     fun withY(y: Int): Position2i = this.copy(lowerLeft = lowerLeft.copy(y = y))
     fun withX(x: Int): Position2i = this.copy(lowerLeft = lowerLeft.copy(x = x))
+
 }

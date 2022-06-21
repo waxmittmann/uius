@@ -13,6 +13,7 @@ class Text(val text: String) : UiDrawable() {
     }
 
     override fun drawContent(batch: SpriteBatch, shapeHelper: ShapeHelper, position: Position2i) {
+
         shapeHelper.drawText(batch, text, position.lowerLeft)
 //        shapeHelper.drawFilledRect(Color.BLUE, position)
     }

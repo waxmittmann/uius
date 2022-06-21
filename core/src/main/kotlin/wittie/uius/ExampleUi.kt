@@ -50,7 +50,12 @@ fun menu(): UiContainer =
                     ),
                     fill = Fixed(80)
                 )
-            }
+            },
+            Absolute(
+                mutableListOf(
+                    Pair(Circle(Color.BLUE), Position2i(0, 0, 5, 5))
+                )
+            ),
         )
     )
 
@@ -76,10 +81,10 @@ fun ui(): RectangularArea {
                 }, fill = Fill())
                 add(content = menu(), fill = Fixed(50))
             },
-            Absolute(
-                mutableListOf(
-                    Pair(Circle(Color.BLUE), Position2i(50, 50, 5, 5))
-                )
-            ),
+//            Absolute(
+//                mutableListOf(
+//                    Pair(Circle(Color.BLUE), Position2i(50, 50, 5, 5))
+//                )
+//            ),
         ))
 }

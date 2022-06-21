@@ -1,8 +1,8 @@
 package wittie.uius
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import ktx.assets.toInternalFile
@@ -13,20 +13,41 @@ enum class TextSize {
     SMALL, MEDIUM, LARGE
 }
 
+data class UiusFont(val size: Int, val font: BitmapFont)
+
 class ShapeHelper(val shapeRenderer: ShapeRenderer) {
     var generator = FreeTypeFontGenerator("fonts/open-sans/OpenSans-Regular.ttf".toInternalFile())
 
-    val smallFont = generator.generateFont {
-        size = 12
+    val smallFont = run {
+        val fontSize = 10
+        UiusFont(
+            size = fontSize,
+            font = generator.generateFont {
+                size = fontSize
+            }
+        )
     }
-    val regularFont = generator.generateFont {
-        size = 20
-//        size = 20
-        color = Color.BLACK
-//        outline
+
+    val regularFont = run {
+        val fontSize = 20
+        UiusFont(
+            size = fontSize,
+            font = generator.generateFont {
+                size = fontSize
+                color = Color.BLACK
+            }
+        )
     }
-    val bigFont = generator.generateFont {
-        size = 42
+
+    val bigFont = run {
+        val fontSize = 40
+        UiusFont(
+            size = fontSize,
+            font = generator.generateFont {
+                size = fontSize
+                color = Color.BLACK
+            }
+        )
     }
 
     fun drawFilledRect(color: Color, pos: Position2i) {
@@ -41,14 +62,14 @@ class ShapeHelper(val shapeRenderer: ShapeRenderer) {
 
     fun drawText(batch: Batch, text: String, point: Point2i, textSize: TextSize = TextSize.MEDIUM) {
 //        batch.setColor(1f, 0f, 0f, 1f)
-        val font = when (textSize) {
+        val fontData = when (textSize) {
             TextSize.SMALL -> smallFont
             TextSize.MEDIUM -> regularFont
             TextSize.LARGE -> bigFont
         }
 
         batch.begin()
-        font.draw(batch, text, point.x.toFloat(), point.y.toFloat() + 10)
+        fontData.font.draw(batch, text, point.x.toFloat(), point.y.toFloat() + fontData.size)
         batch.end()
     }
 
