@@ -10,7 +10,7 @@ import wittie.uius.ShapeHelper
 class Circle(private val fillColor: Color) : UiDrawable() {
 
     override fun drawContent(batch: SpriteBatch, shapeHelper: ShapeHelper, position: Position2i) {
-        shapeHelper.drawFilledCircle(fillColor, position.center(), position.minDim())
+        shapeHelper.drawFilledCircle(batch, fillColor, position.center(), position.minDim())
     }
 
     override fun type(): String {

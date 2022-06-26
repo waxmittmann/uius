@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.math.Matrix4
 import ktx.assets.toInternalFile
 import ktx.freetype.*
 
@@ -16,41 +17,32 @@ enum class TextSize {
 data class UiusFont(val size: Int, val font: BitmapFont)
 
 class ShapeHelper(val shapeRenderer: ShapeRenderer) {
+//    var projectionMatrix: Matrix4 = Matrix4()
     var generator = FreeTypeFontGenerator("fonts/open-sans/OpenSans-Regular.ttf".toInternalFile())
 
-    val smallFont = run {
-        val fontSize = 10
-        UiusFont(
-            size = fontSize,
-            font = generator.generateFont {
-                size = fontSize
-            }
-        )
+    fun setProjectionMatrix(projectionMatrix: Matrix4) {
+        shapeRenderer.projectionMatrix = projectionMatrix
     }
 
-    val regularFont = run {
-        val fontSize = 20
-        UiusFont(
-            size = fontSize,
-            font = generator.generateFont {
-                size = fontSize
+    private val smallFont =
+            generator.generateFont {
+                size = 10
+            }
+
+    private val regularFont =
+            generator.generateFont {
+                size = 20
                 color = Color.BLACK
             }
-        )
-    }
 
-    val bigFont = run {
-        val fontSize = 40
-        UiusFont(
-            size = fontSize,
-            font = generator.generateFont {
-                size = fontSize
+    private val bigFont =
+            generator.generateFont {
+                size = 40
                 color = Color.BLACK
             }
-        )
-    }
 
-    fun drawFilledRect(color: Color, pos: Position2i) {
+    fun drawFilledRect(batch: Batch, color: Color, pos: Position2i) {
+//        batch.begin()
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
         shapeRenderer.color = color
         shapeRenderer.rect(
@@ -58,6 +50,7 @@ class ShapeHelper(val shapeRenderer: ShapeRenderer) {
             pos.dimensions.height.toFloat()
         )
         shapeRenderer.end()
+//        batch.end()
     }
 
     fun drawText(batch: Batch, text: String, point: Point2i, textSize: TextSize = TextSize.MEDIUM) {
@@ -69,14 +62,16 @@ class ShapeHelper(val shapeRenderer: ShapeRenderer) {
         }
 
         batch.begin()
-        fontData.font.draw(batch, text, point.x.toFloat(), point.y.toFloat() + fontData.size)
+        fontData.draw(batch, text, point.x.toFloat(), point.y.toFloat() + fontData.lineHeight)
         batch.end()
     }
 
-    fun drawFilledCircle(color: Color, center: Point2i, radius: Int) {
+    fun drawFilledCircle(batch: Batch, color: Color, center: Point2i, radius: Int) {
+//        batch.begin()
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
         shapeRenderer.color = color
         shapeRenderer.circle(center.x.toFloat(), center.y.toFloat(), radius.toFloat())
         shapeRenderer.end()
+//        batch.end()
     }
 }

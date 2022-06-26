@@ -1,6 +1,7 @@
 package wittie.uius
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.Texture.TextureFilter.Linear
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -10,8 +11,7 @@ import ktx.app.KtxScreen
 import ktx.app.clearScreen
 import ktx.assets.disposeSafely
 import ktx.assets.toInternalFile
-import ktx.graphics.use
-import wittie.uius.ui.PositionedContainer
+
 
 class Main : KtxGame<KtxScreen>() {
     override fun create() {
@@ -27,51 +27,41 @@ class FirstScreen : KtxScreen {
     private var lastTime: Float = 0f
 
     private val ui = ui()
+    private val helper = ShapeHelper(ShapeRenderer())
 
+    private var windowSize = Dimensions2i(0, 0)
+    private var drawables = ui.positioned(Position2i(Point2i(0, 0), windowSize)).descendantDrawables
+
+    val camera: OrthographicCamera = OrthographicCamera()
 
     init {
-//        fun localFn(positionedContainer: PositionedContainer): String {
-//            return positionedContainer.uiContainer.type() + ", " + positionedContainer.position.toString()
-//        }
-//
-//        fun foldFn(lhs: String, rhs: String): String {
-//            return lhs + rhs
-//        }
-//
-//        println("Result:\n" + ui().visit(Position2i(Point2i(0, 0), Dimensions2i(500, 500)), ::localFn, ::foldFn))
+        windowSize = Dimensions2i(Gdx.graphics.width, Gdx.graphics.height)
+        drawables = ui.positioned(Position2i(Point2i(0, 0), windowSize)).descendantDrawables
+        camera.setToOrtho(false, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
+        camera.update()
     }
 
     override fun render(delta: Float) {
         time += delta
+
         clearScreen(red = 0.7f, green = 0.7f, blue = 0.7f)
-        val helper = ShapeHelper(ShapeRenderer())
-//        batch.use {
-//            it.draw(image, 100f, 160f)
 
-            if (true) {
-//                val result = ui().visit(Position2i(0, 0, 500, 500), { pd ->
+        camera.update()
+        batch.projectionMatrix = camera.combined
+        helper.setProjectionMatrix(camera.combined)
+        val drawables = ui.positioned(Position2i(Point2i(0, 0), windowSize)).descendantDrawables
+        drawables.forEach { (drawable, pos) -> drawable.drawContent(batch, helper, pos) }
 
-                val width = Gdx.graphics.width
-                val height = Gdx.graphics.height
+        lastTime = time
+    }
 
-//                val drawables = ui.positioned(Position2i(0, 0, 300, 300)).descendantDrawables
-                val drawables = ui.positioned(Position2i(0, 0, width, height)).descendantDrawables
-                drawables.forEach { (drawable, pos) -> drawable.drawContent(batch, helper, pos) }
-
-//                val result = ui.visit(Position2i(0, 0, 300, 300), { pd ->
-//                    pd.uiContainer.drawContent(batch, helper, pd.position)
-//                    listOf("Drew ${pd.uiContainer.type()} at ${pd.position.toString()}")
-////                    println(pd.uiDrawable)
-//                }, { l: List<String>, r: List<String> -> l + r })
-
-//                if (time > lastTime + 1) {
-//                    println(result)
-//                    lastTime = time
-//                }
-            }
-
-//            ui.
-//        }
+    override fun resize(width: Int, height: Int) {
+        super.resize(width, height)
+        println("Size is " + width + ", " + height)
+        windowSize = Dimensions2i(width, height)
+        drawables = ui.positioned(Position2i(Point2i(0, 0), windowSize)).descendantDrawables
+        camera.setToOrtho(false, width.toFloat(), height.toFloat())
+        camera.update()
     }
 
     override fun dispose() {

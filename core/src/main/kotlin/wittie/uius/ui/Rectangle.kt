@@ -9,7 +9,7 @@ import wittie.uius.ShapeHelper
 class Rectangle(private val fillColor: Color) : UiDrawable() {
 
     override fun drawContent(batch: SpriteBatch, shapeHelper: ShapeHelper, position: Position2i) {
-        shapeHelper.drawFilledRect(fillColor, position)
+        shapeHelper.drawFilledRect(batch, fillColor, position)
 
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
 //        shapeRenderer.color = fill
