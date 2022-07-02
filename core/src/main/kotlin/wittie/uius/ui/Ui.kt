@@ -2,6 +2,7 @@ package wittie.uius.ui
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import wittie.uius.Point2i
 import wittie.uius.Position2i
 import wittie.uius.ShapeHelper
 
@@ -21,7 +22,6 @@ sealed class Layout : UiContainer()
 //    return Rectangle(background.toRectangle())
 //}
 
-data class UiDrawableWithFill(val drawable: UiElement, val fill: FillBehavior)
 
 
 data class PositionedContainer(
@@ -35,6 +35,14 @@ data class PositionedContainer(
 
     fun addContainer(positioned: PositionedContainer): PositionedContainer =
         this.copy(childContainers = this.childContainers + positioned, descendantDrawables = this.descendantDrawables + positioned.descendantDrawables)
+
+    fun detectHit(point: Point2i): Set<PositionedContainer> {
+        // Assumes children fit within its boundaries. Rendering does not enforce this.
+        if (!position.contains(point)) {
+            return setOf()
+        }
+        return setOf(this) + childContainers.flatMap { c -> c.detectHit(point) }
+    }
 }
 
 

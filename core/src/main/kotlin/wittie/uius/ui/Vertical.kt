@@ -4,8 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import wittie.uius.Position2i
 import wittie.uius.ShapeHelper
 
-class Vertical : Layout() {
-    private var children: MutableList<Pair<UiElement, FillBehavior>> = mutableListOf()
+class Vertical(private var children: MutableList<Pair<UiElement, FillBehavior>> = mutableListOf()) : Layout() {
 
     fun add(content: UiElement, fill: FillBehavior) {
         children.add(Pair(content, fill))

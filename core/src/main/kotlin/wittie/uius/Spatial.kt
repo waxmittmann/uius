@@ -57,5 +57,6 @@ data class Position2i(val lowerLeft: Point2i, val dimensions: Dimensions2i) {
 
     fun withY(y: Int): Position2i = this.copy(lowerLeft = lowerLeft.copy(y = y))
     fun withX(x: Int): Position2i = this.copy(lowerLeft = lowerLeft.copy(x = x))
+    fun contains(point: Point2i): Boolean = point.x > xMin() && point.x < xMax() && point.y > yMin() && point.y < yMax()
 
 }
