@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import wittie.uius.Point2i
 import wittie.uius.Position2i
 import wittie.uius.ShapeHelper
+import wittie.uius.ui.elements.drawables.Rectangle
 
 interface Background {
     fun toRectangle(): Rectangle
@@ -16,7 +17,7 @@ class ColorFill(val color: Color) : Background {
     }
 }
 
-sealed class Layout : UiContainer()
+abstract class Layout : UiContainer()
 
 //fun toLayout(background: Background): Layout {
 //    return Rectangle(background.toRectangle())
@@ -50,10 +51,10 @@ sealed interface UiElement {
     fun type(): String
 }
 
-sealed class UiDrawable : UiElement {
+abstract class UiDrawable : UiElement {
     abstract fun drawContent(batch: SpriteBatch, shapeHelper: ShapeHelper, position: Position2i)
 }
 
-sealed class UiContainer : UiElement {
+abstract class UiContainer : UiElement {
     abstract fun positioned(position: Position2i): PositionedContainer
 }

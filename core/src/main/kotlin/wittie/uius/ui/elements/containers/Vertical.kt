@@ -1,8 +1,7 @@
-package wittie.uius.ui
+package wittie.uius.ui.elements.containers
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import wittie.uius.Position2i
-import wittie.uius.ShapeHelper
+import wittie.uius.ui.*
 
 class Vertical(private var children: MutableList<Pair<UiElement, FillBehavior>> = mutableListOf()) : Layout() {
 

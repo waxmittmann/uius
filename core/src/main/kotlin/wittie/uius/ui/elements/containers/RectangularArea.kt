@@ -1,6 +1,7 @@
-package wittie.uius.ui
+package wittie.uius.ui.elements.containers
 
 import wittie.uius.Position2i
+import wittie.uius.ui.*
 
 //class RectangularArea(val layouts: List<Layout> = listOf()) : UiContainer() {
 class RectangularArea(val elements: List<UiElement> = listOf()) : UiContainer() {

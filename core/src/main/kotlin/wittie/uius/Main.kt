@@ -1,6 +1,5 @@
 package wittie.uius
 
-import com.badlogic.gdx.ApplicationListener
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
@@ -13,10 +12,6 @@ import ktx.app.KtxScreen
 import ktx.app.clearScreen
 import ktx.assets.disposeSafely
 import ktx.assets.toInternalFile
-import wittie.uius.ui.RectangularArea
-import wittie.uius.ui.event.UiEvents
-import java.awt.event.MouseEvent
-import java.awt.event.MouseListener
 
 
 class Main : KtxGame<KtxScreen>() {
@@ -33,7 +28,8 @@ class FirstScreen : KtxScreen {
     private var time: Float = 0f
     private var lastTime: Float = 0f
 
-    private val uiAndEvents = ui()
+//    private val uiAndEvents = ui()
+    private val uiAndEvents = ui2()
     private val helper = ShapeHelper(ShapeRenderer())
 
     private var windowSize = Dimensions2i(0, 0)

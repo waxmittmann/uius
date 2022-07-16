@@ -1,4 +1,4 @@
-package wittie.uius.ui
+package wittie.uius.ui.elements.containers
 
 sealed class FillBehavior
 data class Fixed(val pixels: Int) : FillBehavior()

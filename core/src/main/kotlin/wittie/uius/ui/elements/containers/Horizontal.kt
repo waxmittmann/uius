@@ -1,6 +1,7 @@
-package wittie.uius.ui
+package wittie.uius.ui.elements.containers
 
 import wittie.uius.Position2i
+import wittie.uius.ui.*
 
 class Horizontal : Layout() {
     private var children: MutableList<Pair<UiElement, FillBehavior>> = mutableListOf()

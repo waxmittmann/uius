@@ -3,6 +3,8 @@ package wittie.uius.ui
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import wittie.uius.Position2i
+import wittie.uius.ui.elements.containers.RectangularArea
+import wittie.uius.ui.elements.drawables.Text
 
 internal class RectangularAreaTest {
     @Test

@@ -1,6 +1,7 @@
-package wittie.uius.ui
+package wittie.uius.ui.elements.containers
 
 import wittie.uius.Position2i
+import wittie.uius.ui.*
 
 class Absolute(private val children: MutableList<Pair<UiElement, Position2i>> = mutableListOf()) : Layout() {
 

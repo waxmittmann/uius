@@ -5,6 +5,10 @@ import org.junit.jupiter.api.Test
 import wittie.uius.Point2i
 import wittie.uius.Position2i
 import wittie.uius.ui.*
+import wittie.uius.ui.elements.containers.Fill
+import wittie.uius.ui.elements.containers.Fixed
+import wittie.uius.ui.elements.containers.Vertical
+import wittie.uius.ui.elements.drawables.Text
 
 internal class UiEventsTest {
 

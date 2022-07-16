@@ -1,11 +1,12 @@
-package wittie.uius.ui
+package wittie.uius.ui.elements.drawables
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import wittie.uius.Point2i
 import wittie.uius.Position2i
 import wittie.uius.ShapeHelper
+import wittie.uius.ui.UiDrawable
+import wittie.uius.ui.elements.containers.RectangularArea
 
 class Circle(private val fillColor: Color) : UiDrawable() {
 

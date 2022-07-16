@@ -6,6 +6,11 @@ import org.junit.jupiter.api.Assertions.*
 import wittie.uius.Dimensions2i
 import wittie.uius.Point2i
 import wittie.uius.Position2i
+import wittie.uius.ui.elements.containers.Fill
+import wittie.uius.ui.elements.containers.Fixed
+import wittie.uius.ui.elements.containers.Percentage
+import wittie.uius.ui.elements.containers.Vertical
+import wittie.uius.ui.elements.drawables.Text
 
 internal class VerticalTest {
     private fun nonNestedContainer(container: UiContainer, position: Position2i, children: List<Pair<Text, Position2i>>): PositionedContainer =
