@@ -28,6 +28,15 @@ class Table(val rawRows: List<FillBehavior>, val cols: List<FillBehavior>, val a
         return this
     }
 
+    fun unset(row: Int, col: Int): Boolean {
+        val adjRow = if (ascendingRows) row else rows.size - row - 1
+        if (cells.containsKey(Pair(adjRow, col))) {
+            cells.remove(Pair(adjRow, col))
+            return true
+        }
+        return false
+    }
+
     override fun positioned(position: Position2i): PositionedContainer {
         val totals = totals2d(position.width(), position.height(), cols, rows)
 
@@ -38,7 +47,6 @@ class Table(val rawRows: List<FillBehavior>, val cols: List<FillBehavior>, val a
 
         val result = (rows.indices).fold(PositionedContainer(this, position)) { parentContainer, rowAt ->
             (cols.indices).fold(parentContainer) { parentContainer2, colAt ->
-                println("$rowAt, $colAt")
                 cells[Pair(rowAt, colAt)].toOption().map {
                     val lowerLeft = Point2i(
                         if (colAt == 0) 0 else colExtents[colAt - 1],

@@ -9,9 +9,8 @@ import wittie.uius.ui.elements.drawables.Circle
 import wittie.uius.ui.elements.drawables.Text
 import wittie.uius.ui.event.TriggerResult
 import wittie.uius.ui.event.TriggerUnit
-import wittie.uius.ui.event.UiEvent
+import wittie.uius.ui.event.UiContainerEvent
 import wittie.uius.ui.event.UiEvents
-import kotlin.random.Random
 
 //fun menu(): RectangularArea {
 //    return RectangularArea(
@@ -64,12 +63,12 @@ fun menu(): Pair<UiContainer, UiEvents> {
         element = Text("Options")
     )
 
-    val events = UiEvents(mapOf(object : UiEvent {
+    val events = UiEvents(mutableMapOf(object : UiContainerEvent {
         override fun trigger(target: PositionedContainer): TriggerResult {
             println("Pressed.")
             return TriggerUnit()
         }
-    } to setOf(gameKey)))
+    } to mutableSetOf(gameKey)))
 
     return Pair(
         RectangularArea(
@@ -118,12 +117,12 @@ fun ui2(): Pair<UiContainer, UiEvents> {
 //        }
 //    }
 
-    val ui = Table(
-        listOf(Fixed(100), Fixed(600), Fill()),
-        listOf(Fixed(150), Fixed(150), Fill()),
-    )
+//    val ui = Table(
+//        listOf(Fixed(100), Fixed(600), Fill()),
+//        listOf(Fixed(150), Fixed(150), Fill()),
+//    )
 
-    val table = MenuBar(listOf("First", "Second")).container()
+    val table = MenuBar(listOf("First", "Second", "Third", "Fourth"))
 
 //    val table = Table(
 //        listOf(Fixed(250), Percentage(10), Percentage(20), Fill()),
@@ -155,7 +154,7 @@ fun ui2(): Pair<UiContainer, UiEvents> {
 //        .fSet(1, 0, RectangularArea(ColorFill(Color.BLUE)))
 //        .fSet(1, 1, RectangularArea(ColorFill(Color.CHARTREUSE)))
 
-    return Pair(table, UiEvents())
+    return Pair(table.container(), table.events)
 }
 
 fun ui(): Pair<RectangularArea, UiEvents> {

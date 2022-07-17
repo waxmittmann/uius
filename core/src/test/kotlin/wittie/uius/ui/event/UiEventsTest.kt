@@ -12,7 +12,7 @@ import wittie.uius.ui.elements.drawables.Text
 
 internal class UiEventsTest {
 
-    data class TestEvent(val id: Int) : UiEvent {
+    data class TestEvent(val id: Int) : UiContainerEvent {
         override fun trigger(target: PositionedContainer): TriggerResult = TriggerError("Don't call me.")
     }
 
@@ -114,7 +114,7 @@ internal class UiEventsTest {
                     eventB to setOf(childContainerA),
                     eventC to setOf(childContainerB),
                 )
-            ).containersAndEventsAt(Point2i(210, 90), positionedParent), emptySet<Pair<PositionedContainer, UiEvent>>()
+            ).containersAndEventsAt(Point2i(210, 90), positionedParent), emptySet<Pair<PositionedContainer, UiContainerEvent>>()
         )
     }
 }
